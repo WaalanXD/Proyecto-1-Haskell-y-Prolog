@@ -6,8 +6,12 @@ module Funciones
   , radianesAGrados
   , seno
   , coseno
+  , mimap
+  , miTakeWhile
+  , miiterate
   )
 where
+import Graphics.Win32 (mFT_BITMAP)
 
 potencia :: Float -> Int -> Float
 potencia _ 0 = 1
@@ -33,5 +37,5 @@ seno x n suma
 coseno :: Float -> Float
 coseno x = seno (x + pi / 2) 0 0
 
-
+mimap :: 
 
