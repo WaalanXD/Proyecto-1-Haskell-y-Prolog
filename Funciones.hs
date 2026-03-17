@@ -11,7 +11,6 @@ module Funciones
   , miiterate
   )
 where
-import Graphics.Win32 (mFT_BITMAP)
 
 potencia :: Float -> Int -> Float
 potencia _ 0 = 1
@@ -38,4 +37,10 @@ coseno :: Float -> Float
 coseno x = seno (x + pi / 2) 0 0
 
 mimap :: 
+
+
+miiterate ::
+
+
+miTakeWhile ::
 
