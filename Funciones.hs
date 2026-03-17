@@ -17,15 +17,12 @@ factorial :: Int -> Int
 factorial 0 = 1
 factorial n = n * factorial (n - 1)
 
--- funcion convertir grados a radianes
 gradosARadianes :: Float -> Float
 gradosARadianes g = g * pi / 180
 
--- funcion convertir radianes a grados
 radianesAGrados :: Float -> Float
 radianesAGrados r = r * 180 / pi
 
--- funcion seno usando la serie de Taylor
 seno :: Float -> Int -> Float -> Float
 seno x n suma
   | abs termino < 0.00001 = suma
@@ -33,8 +30,6 @@ seno x n suma
   where
     termino = potencia (-1) n * potencia x (2 * n + 1) / fromIntegral (factorial (2 * n + 1))
 
-
--- funcion cos(x) usando sen(x) y la identidad trigonometrica cos(x) = sen(x + pi/2)
 coseno :: Float -> Float
 coseno x = seno (x + pi / 2) 0 0
 
