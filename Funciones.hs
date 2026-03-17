@@ -35,20 +35,25 @@ seno x n suma
 
 coseno :: Float -> Float
 coseno x = seno (x + pi / 2) 0 0
---recibe una función y una lista, y devuelve una lista con la función aplicada a cada elemento de la lista.
+--recibe una función transformadora y una lista, y devuelve una lista con la función aplicada a cada elemento de la lista infinita
 mimap :: (a -> b) -> [a] -> [b]
 --caso base
-mimap _ [] = []
+mimap _ [] = [] --si la lista es vacía, devuelve una lista vacía
 --caso recursivo
-mimap f (x : xs) = f x : mimap f xs
+mimap f (x : xs) = f x : mimap f xs --aplica la función f a x y luego llama recursivamente en xs
 
+--recibe una función, un valor inicial y devulve una lista infinita 
 miiterate :: (a -> a) -> a -> [a]
-miiterate f x = x : miiterate f (f x)
+miiterate f x = x : miiterate f (f x) --aplica la función f a x y luego llama recursivamente con el resultado de f x
 
+--recibe una funcón confucion, una lista y devuelve una lista con los elementos de la lista hasta que se cumpla la condición
 miTakeWhile :: (a -> Bool) -> [a] -> [a]
--- caso base
+--caso base
 miTakeWhile _ [] = []
 
-miTakeWhile p (x:xs)
+--caso recursivo
+miTakeWhile p (x:xs) -- se aplica el condicional p al primer elemento de la lista y resultante
+  | p x = x : miTakeWhile p xs --si p en x es True, se agrega x a la lista resultante y se llama recursivamente con el resto de la lista
+  | otherwise = [] --si p en x es False, se detiene la recursión y se devuelve la lista resultante hasta ese punto
   
 
