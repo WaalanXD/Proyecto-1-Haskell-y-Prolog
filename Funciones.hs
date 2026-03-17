@@ -35,12 +35,20 @@ seno x n suma
 
 coseno :: Float -> Float
 coseno x = seno (x + pi / 2) 0 0
+--recibe una función y una lista, y devuelve una lista con la función aplicada a cada elemento de la lista.
+mimap :: (a -> b) -> [a] -> [b]
+--caso base
+mimap _ [] = []
+--caso recursivo
+mimap f (x : xs) = f x : mimap f xs
 
-mimap :: 
+miiterate :: (a -> a) -> a -> [a]
+miiterate f x = x : miiterate f (f x)
 
+miTakeWhile :: (a -> Bool) -> [a] -> [a]
+-- caso base
+miTakeWhile _ [] = []
 
-miiterate ::
-
-
-miTakeWhile ::
+miTakeWhile p (x:xs)
+  
 
