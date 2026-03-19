@@ -6,9 +6,10 @@ module Funciones
   , radianesAGrados
   , seno
   , coseno
-  , miMap
-  , miTakeWhile
-  , miIterate
+  , aplicarATodos
+  , tomarMientras
+  , iterar
+  , tomarHasta
   )
 where
 
@@ -35,25 +36,29 @@ seno x n suma
 
 coseno :: Float -> Float
 coseno x = seno (x + pi / 2) 0 0
---recibe una función transformadora y una lista, y devuelve una lista con la función aplicada a cada elemento de la lista infinita
-miMap :: (a -> b) -> [a] -> [b]
---caso base
-miMap _ [] = [] --si la lista es vacía, devuelve una lista vacía
---caso recursivo
-miMap f (x : xs) = f x : miMap f xs --aplica la función f a x y luego llama recursivamente en xs
 
---recibe una función, un valor inicial y devulve una lista infinita 
-miIterate :: (a -> a) -> a -> [a]
-miIterate f x = x : miIterate f (f x) --aplica la función f a x y luego llama recursivamente con el resultado de f x
+-- recibe una función transformadora y una lista, y devuelve una lista
+-- con la función aplicada a cada elemento.
+aplicarATodos :: (a -> b) -> [a] -> [b]
+aplicarATodos _ [] = [] -- si la lista es vacía, devuelve una lista vacía
+aplicarATodos f (x : xs) = f x : aplicarATodos f xs -- aplica la función f a x y luego llama recursivamente en xs
 
---recibe una funcón confucion, una lista y devuelve una lista con los elementos de la lista hasta que se cumpla la condición
-miTakeWhile :: (a -> Bool) -> [a] -> [a]
---caso base
-miTakeWhile _ [] = []
 
---caso recursivo
-miTakeWhile p (x:xs) -- se aplica el condicional p al primer elemento de la lista y resultante
-  | p x = x : miTakeWhile p xs --si p en x es True, se agrega x a la lista resultante y se llama recursivamente con el resto de la lista
-  | otherwise = [] --si p en x es False, se detiene la recursión y se devuelve la lista resultante hasta ese punto
+-- recibe una función y un valor inicial y devuelve una lista infinita.
+iterar :: (a -> a) -> a -> [a]
+iterar f x = x : iterar f (f x) -- aplica la función f a x y luego llama recursivamente con el resultado
+
+
+-- recibe un predicado y una lista, y devuelve una lista con los elementos
+-- mientras el predicado sea verdadero.
+tomarMientras :: (a -> Bool) -> [a] -> [a]
+tomarMientras _ [] = [] -- si la lista es vacía, devuelve una lista vacía
+tomarMientras p (x : xs)
+  | p x = x : tomarMientras p xs
+  | otherwise = []
   
 
+-- toma elementos de una lista hasta (e incluyendo) el primero que cumpla el predicado.
+tomarHasta :: (a -> Bool) -> [a] -> [a]
+tomarHasta _ [] = []
+tomarHasta p (x : xs) = x : if p x then [] else tomarHasta p xs
