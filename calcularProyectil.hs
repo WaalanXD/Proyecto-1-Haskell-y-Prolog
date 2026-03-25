@@ -1,6 +1,6 @@
 module Main where
 
-import Funciones (aplicarATodos, coseno, gradosARadianes, iterar, seno, tomarHasta, tomarMientras, mapearM_)
+import Funciones (aplicarATodos, coseno, gradosARadianes, iterar, seno, tomarHasta, tomarMientras, ejecutarParaCadaUno_)
 
 -- Movimiento de proyectiles
 -- x(t) = v0 cos(θ) t
@@ -35,5 +35,5 @@ main = do
       }
 
 
-  mapearM_ print (trajectory velocidadInicial anguloRad tMax deltaT)
+  ejecutarParaCadaUno_ print (trajectory velocidadInicial anguloRad tMax deltaT)
   

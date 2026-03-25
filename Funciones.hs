@@ -7,7 +7,7 @@ module Funciones
   , seno
   , coseno
   , aplicarATodos
-  , mapearM_
+  , ejecutarParaCadaUno_
   , tomarMientras
   , iterar
   , tomarHasta
@@ -46,11 +46,11 @@ aplicarATodos f (x : xs) = f x : aplicarATodos f xs -- aplica la función f a x 
 
 
 -- aplica una acción a cada elemento, en orden.
-mapearM_ :: (a -> IO b) -> [a] -> IO ()
-mapearM_ _ [] = return ()
-mapearM_ f (x : xs) = do
+ejecutarParaCadaUno_ :: (a -> IO b) -> [a] -> IO ()
+ejecutarParaCadaUno_ _ [] = return ()
+ejecutarParaCadaUno_ f (x : xs) = do
   _ <- f x
-  mapearM_ f xs
+  ejecutarParaCadaUno_ f xs
 
 
 -- recibe una función y un valor inicial y devuelve una lista infinita.

@@ -1,7 +1,6 @@
-
 module Main where
 
-import Funciones (aplicarATodos, iterar, mapearM_, seno, tomarMientras)
+import Funciones (aplicarATodos, iterar, ejecutarParaCadaUno_, seno, tomarMientras)
 
 -- onda modo k w fijo maximo delta
 onda :: String -> Float -> Float -> Float -> Float -> Float -> [(Float, Float)]
@@ -47,7 +46,7 @@ main = do
       xFijo = 2.5
       tMax = 2
       dt = 0.1
-  mapearM_ print (onda "tiempo" kTiempo wTiempo xFijo tMax dt)
+  ejecutarParaCadaUno_ print (onda "tiempo" kTiempo wTiempo xFijo tMax dt)
 
   putStrLn ""
   putStrLn "Ejemplo onda en modo ESPACIO (psi, x):"
@@ -56,4 +55,4 @@ main = do
       tFijo = 0.5
       lMax = 5
       dx = 0.5
-  mapearM_ print (onda "espacio" kEspacio wEspacio tFijo lMax dx)
+  ejecutarParaCadaUno_ print (onda "espacio" kEspacio wEspacio tFijo lMax dx)
