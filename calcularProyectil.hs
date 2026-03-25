@@ -1,6 +1,6 @@
-module Main where
+module CalcularProyectil where
 
-import Funciones (aplicarATodos, coseno, gradosARadianes, iterar, seno, tomarHasta, tomarMientras, ejecutarParaCadaUno_)
+import Funciones (aplicarATodos, coseno, ejecutarParaCadaUno_, iterar, seno, tomarHasta, tomarMientras)
 
 -- Movimiento de proyectiles
 -- x(t) = v0 cos(θ) t
@@ -9,13 +9,13 @@ import Funciones (aplicarATodos, coseno, gradosARadianes, iterar, seno, tomarHas
 
 type Trayectoria = [(Float, Float, Float)] -- (x, y, t)
 
--- Retorna una lista de triples (x, y, t).
+-- Retorna IO () después de procesar todos los puntos de la trayectoria.
 -- Se detiene al primer impacto (y <= 0) o cuando t > T.
-trajectory :: Float -> Float -> Float -> Float -> Trayectoria
-trajectory velocidadInicial anguloRad tMax deltaT
+trajectoria :: Float -> Float -> Float -> Float -> IO ()
+trajectoria velocidadInicial anguloRad tMax deltaT
   | deltaT <= 0 = error "deltaT debe ser > 0"
   | tMax < 0 = error "T debe ser >= 0"
-  | otherwise = aplicarATodos aXYT (tomarHasta impacto (aplicarATodos estado tiempos))
+  | otherwise = ejecutarParaCadaUno_ print resultados
   where
     gravedad = 9.8
     velocidadX = velocidadInicial * coseno anguloRad
@@ -25,15 +25,5 @@ trajectory velocidadInicial anguloRad tMax deltaT
     estado t = (t, velocidadX * t, velocidadY * t - (gravedad * t * t) / 2)
     aXYT (t, x, y) = (x, y, t)
     impacto (t, _x, y) = t > 0 && y <= 0
-
-main :: IO ()
-main = do
-  let { velocidadInicial = 10
-      ; anguloRad = 0.5
-      ; tMax = 2
-      ; deltaT = 0.1
-      }
-
-
-  ejecutarParaCadaUno_ print (trajectory velocidadInicial anguloRad tMax deltaT)
+    resultados = aplicarATodos aXYT (tomarHasta impacto (aplicarATodos estado tiempos))
   
