@@ -7,6 +7,7 @@ module Funciones
   , seno
   , coseno
   , aplicarATodos
+  , mapearM_
   , tomarMientras
   , iterar
   , tomarHasta
@@ -42,6 +43,14 @@ coseno x = seno (x + pi / 2) 0 0
 aplicarATodos :: (a -> b) -> [a] -> [b]
 aplicarATodos _ [] = [] -- si la lista es vacía, devuelve una lista vacía
 aplicarATodos f (x : xs) = f x : aplicarATodos f xs -- aplica la función f a x y luego llama recursivamente en xs
+
+
+-- aplica una acción a cada elemento, en orden.
+mapearM_ :: (a -> IO b) -> [a] -> IO ()
+mapearM_ _ [] = return ()
+mapearM_ f (x : xs) = do
+  _ <- f x
+  mapearM_ f xs
 
 
 -- recibe una función y un valor inicial y devuelve una lista infinita.
