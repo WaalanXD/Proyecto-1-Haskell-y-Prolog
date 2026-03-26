@@ -42,6 +42,7 @@ coseno x = seno (x + pi / 2) 0 0
 aplicarATodos :: (a -> b) -> [a] -> [b]
 aplicarATodos _ [] = []
 aplicarATodos f (x : xs) = f x : aplicarATodos f xs
+
 ejecutarParaCadaUno_ :: (a -> IO b) -> [a] -> IO ()
 ejecutarParaCadaUno_ _ [] = return ()
 ejecutarParaCadaUno_ f (x : xs) = do
