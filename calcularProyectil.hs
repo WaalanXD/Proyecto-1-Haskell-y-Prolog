@@ -2,15 +2,8 @@ module CalcularProyectil where
 
 import Funciones (aplicarATodos, coseno, ejecutarParaCadaUno_, iterar, seno, tomarHasta, tomarMientras)
 
--- Movimiento de proyectiles
--- x(t) = v0 cos(θ) t
--- y(t) = v0 sin(θ) t - (g t^2)/2
--- El cálculo se detiene al detectar impacto: primer t>0 con y(t) <= 0.
+type Trayectoria = [(Float, Float, Float)]
 
-type Trayectoria = [(Float, Float, Float)] -- (x, y, t)
-
--- Retorna IO () después de procesar todos los puntos de la trayectoria.
--- Se detiene al primer impacto (y <= 0) o cuando t > T.
 trajectoria :: Float -> Float -> Float -> Float -> IO ()
 trajectoria velocidadInicial anguloRad tMax deltaT
   | deltaT <= 0 = error "deltaT debe ser > 0"

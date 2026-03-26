@@ -11,6 +11,7 @@ module Funciones
   , tomarMientras
   , iterar
   , tomarHasta
+  
   )
 where
 
@@ -38,14 +39,11 @@ seno x n suma
 coseno :: Float -> Float
 coseno x = seno (x + pi / 2) 0 0
 
--- recibe una función transformadora y una lista, y devuelve una lista
--- con la función aplicada a cada elemento.
 aplicarATodos :: (a -> b) -> [a] -> [b]
-aplicarATodos _ [] = [] -- si la lista es vacía, devuelve una lista vacía
-aplicarATodos f (x : xs) = f x : aplicarATodos f xs -- aplica la función f a x y luego llama recursivamente en xs
+aplicarATodos _ [] = []
+aplicarATodos f (x : xs) = f x : aplicarATodos f xs
 
 
--- aplica una acción a cada elemento, en orden.
 ejecutarParaCadaUno_ :: (a -> IO b) -> [a] -> IO ()
 ejecutarParaCadaUno_ _ [] = return ()
 ejecutarParaCadaUno_ f (x : xs) = do
@@ -53,21 +51,17 @@ ejecutarParaCadaUno_ f (x : xs) = do
   ejecutarParaCadaUno_ f xs
 
 
--- recibe una función y un valor inicial y devuelve una lista infinita.
 iterar :: (a -> a) -> a -> [a]
-iterar f x = x : iterar f (f x) -- aplica la función f a x y luego llama recursivamente con el resultado
+iterar f x = x : iterar f (f x)
 
 
--- recibe un predicado y una lista, y devuelve una lista con los elementos
--- mientras el predicado sea verdadero.
 tomarMientras :: (a -> Bool) -> [a] -> [a]
-tomarMientras _ [] = [] -- si la lista es vacía, devuelve una lista vacía
+tomarMientras _ [] = []
 tomarMientras p (x : xs)
   | p x = x : tomarMientras p xs
   | otherwise = []
   
 
--- toma elementos de una lista hasta (e incluyendo) el primero que cumpla el predicado.
 tomarHasta :: (a -> Bool) -> [a] -> [a]
 tomarHasta _ [] = []
 tomarHasta p (x : xs) = x : if p x then [] else tomarHasta p xs
