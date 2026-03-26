@@ -1,4 +1,5 @@
 -- Módulo principal que ejecuta un ejemplo de cálculo de trayectoria de proyectil
+
 module Main where
 
 import qualified CalcularProyectil as CP
