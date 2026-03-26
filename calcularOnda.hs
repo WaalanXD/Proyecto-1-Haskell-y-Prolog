@@ -1,38 +1,68 @@
+
 -- Módulo para calcular y visualizar ondas sinusoidales
--- Simula comportamiento de ondas variando tiempo o espacio
+-- Soporta dos modos: evolución temporal en posición fija o perfil espacial en tiempo fijo
 module CalcularOnda where
 
 import Funciones (aplicarATodos, ejecutarParaCadaUno_, iterar, seno, tomarMientras)
 
--- Función principal para calcular ondas
--- Parámetros: modo ("tiempo" o "espacio"), número de onda (k), frecuencia angular (w), 
---             posición fija x o tiempo fijo t, máximo de iteración, delta de incremento
+-- ECUACIONES DE ONDAS:
+-- ψ(x,t) = A * sin(kx - ωt)   (onda viajera unidimensional)
+-- k = número de onda
+-- ω = frecuencia angular
+-- El cálculo muestra pares (amplitud, parámetro_variable)
+
+-- Calcula y visualiza una onda sinusoidal en dos modos diferentes
+-- Modo "tiempo": muestra evolución temporal en posición fija
+-- Modo "espacio": muestra perfil espacial en tiempo fijo
+-- Parámetros:
+--   modo: "tiempo" o "espacio"
+--   k: número de onda (determina longitud de onda: λ = 2π/k)
+--   w: frecuencia angular (determina período: T = 2π/ω)
+--   x: posición fija (usado en modo "tiempo")
+--   t: tiempo fijo (usado en modo "espacio")
+--   tMax/lMax: límite máximo del parámetro variable (segundos o metros)
+--   dt/dx: incremento entre cálculos (resolución de la simulación)
+-- Retorna: IO () después de imprimir todas las amplitudes calculadas
 onda :: String -> Float -> Float -> Float -> Float -> Float -> IO ()
 
--- CASO 1: MODO TIEMPO
--- x es fijo, t varía desde 0 hasta tMax
--- Simula cómo la amplitud varía en un punto fijo del espacio a lo largo del tiempo
+-- CASO 1: Modo TIEMPO - Observar amplitud en un punto del espacio a lo largo del tiempo
+-- Parámetros: "tiempo" k w posicionFija tMax deltaT
+-- Utilidad: ver cómo oscila la onda en una ubicación específica
 onda "tiempo" k w x tMax dt = ejecutarParaCadaUno_ print resultados
   where
-    -- Genera lista de tiempos: [0, dt, 2*dt, ..., hasta tMax]
+    -- Generar lista de tiempos: [0, dt, 2*dt, ..., hasta tMax]
+    -- tomarMientras detiene cuando la condición (<= tMax) se hace falsa
     tiempos = tomarMientras (<= tMax) (iterar (+ dt) 0)
-    -- Para cada tiempo, calcula la amplitud usando: sin(kx - wt)
+
+    -- Función que calcula la amplitud en el punto fijo x en cada instante t
+    -- Usa la ecuación: ψ = sin(kx - ωt)
+    -- Retorna tupla: (amplitud, tiempo)
     calcularAmplitud t = (seno (k * x - w * t) 0 0, t)
-    -- Aplica el cálculo a todos los tiempos y retorna lista de (amplitud, tiempo)
+
+    -- Aplicar la función calcularAmplitud a todos los tiempos generados
+    -- Produce lista de tuplas [(ψ(x,0), 0), (ψ(x,dt), dt), ..., (ψ(x,tMax), tMax)]
     resultados = aplicarATodos calcularAmplitud tiempos
 
--- CASO 2: MODO ESPACIO
--- t es fijo, x varía desde 0 hasta lMax
--- Simula cómo la amplitud varía en un tiempo fijo a lo largo del espacio
+
+-- CASO 2: Modo ESPACIO - Observar amplitud a lo largo del espacio en un instante
+-- Parámetros: "espacio" k w tiempoFijo lMax deltaX
+-- Utilidad: ver la forma de la onda congelada en el tiempo (fotografía de la onda)
 onda "espacio" k w t lMax dx = ejecutarParaCadaUno_ print resultados
   where
-    -- Genera lista de posiciones: [0, dx, 2*dx, ..., hasta lMax]
+    -- Generar lista de posiciones: [0, dx, 2*dx, ..., hasta lMax]
+    -- tomarMientras detiene cuando la condición (<= lMax) se hace falsa
     posiciones = tomarMientras (<= lMax) (iterar (+ dx) 0)
-    -- Para cada posición, calcula la amplitud usando: sin(kx - wt)
+
+    -- Función que calcula la amplitud a lo largo del espacio en el instante t fijo
+    -- Usa la ecuación: ψ = sin(kx - ωt)
+    -- Retorna tupla: (amplitud, posicion)
     calcularAmplitud x = (seno (k * x - w * t) 0 0, x)
-    -- Aplica el cálculo a todas las posiciones y retorna lista de (amplitud, posición)
+   
+    -- Aplicar la función calcularAmplitud a todas las posiciones generadas
+    -- Produce lista de tuplas [(ψ(0,t), 0), (ψ(dx,t), dx), ..., (ψ(lMax,t), lMax)]
     resultados = aplicarATodos calcularAmplitud posiciones
 
--- CASO 3: MANEJO DE ERRORES
--- Si el usuario escribe un modo distinto a "tiempo" o "espacio", genera un error
+
+-- CASO 3: Error - Modo no reconocido
+-- Si el usuario proporciona un modo diferente a "tiempo" o "espacio", lanza error
 onda _ _ _ _ _ _ = error "El modo debe ser 'tiempo' o 'espacio'"

@@ -2,7 +2,6 @@
 module Main where
 
 import qualified CalcularOnda as CO
-
 -- Función principal que presenta dos ejemplos de ondas
 main :: IO ()
 main = do
