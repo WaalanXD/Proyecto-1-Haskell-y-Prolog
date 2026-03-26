@@ -13,6 +13,7 @@ main = do
   CO.onda "tiempo" kTiempo wTiempo xFijo tMax dt
 
   putStrLn ""
+  
   putStrLn "Ejemplo onda en modo ESPACIO (psi, x):"
   let kEspacio = 1
       wEspacio = 2

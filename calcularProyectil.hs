@@ -1,3 +1,4 @@
+
 module CalcularProyectil where
 
 import Funciones (aplicarATodos, coseno, ejecutarParaCadaUno_, iterar, seno, tomarHasta, tomarMientras)
@@ -8,6 +9,7 @@ type Trayectoria = [(Float, Float, Float)]
 
 trajectoria :: Float -> Float -> Float -> Float -> IO ()
 trajectoria velocidadInicial anguloRad tMax deltaT
+
   | deltaT <= 0 = error "deltaT debe ser > 0"
   | tMax < 0 = error "T debe ser >= 0"
   | otherwise = ejecutarParaCadaUno_ print resultados

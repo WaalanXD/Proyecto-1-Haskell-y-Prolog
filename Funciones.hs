@@ -11,6 +11,7 @@ module Funciones
   , tomarMientras
   , iterar
   , tomarHasta
+  
   )
 where
 
@@ -38,12 +39,9 @@ seno x n suma
 coseno :: Float -> Float
 coseno x = seno (x + pi / 2) 0 0
 
-
 aplicarATodos :: (a -> b) -> [a] -> [b]
-aplicarATodos _ [] = [] 
-aplicarATodos f (x : xs) = f x : aplicarATodos f xs 
-
-
+aplicarATodos _ [] = []
+aplicarATodos f (x : xs) = f x : aplicarATodos f xs
 
 ejecutarParaCadaUno_ :: (a -> IO b) -> [a] -> IO ()
 ejecutarParaCadaUno_ _ [] = return ()
@@ -63,7 +61,6 @@ tomarMientras _ [] = []
 tomarMientras p (x : xs)
   | p x = x : tomarMientras p xs
   | otherwise = []
-  
 
 
 tomarHasta :: (a -> Bool) -> [a] -> [a]
